@@ -1,25 +1,32 @@
-# Game Review Blog
+# Game Writing Blog
 
-A small Angular-based frontend application for publishing personal video game reviews, screenshots, completion notes, and achievements.
+A small Angular-based frontend application for publishing personal video game writing.
 
-The first version is intentionally static: the public website reads content from JSON files and static asset folders. There is no backend, database, CMS, authentication, or server-side processing.
+The blog contains three main content types:
 
-However, the app should also contain a lightweight browser-based editor. This editor lets the author import the current JSON data, create or edit posts in the browser, and export an updated JSON file. The exported JSON file and any new asset files can then be uploaded manually to the server.
+- **Games**: canonical entries for games that exist in the blog catalogue
+- **Reviews**: opinionated posts about one specific game
+- **Articles**: standalone posts about games, design, comparisons, personal reflections, trends, or other game-related topics
+
+The first version is intentionally static: the public website reads content from a JSON file and static asset folders. There is no backend, database, CMS, authentication, or server-side processing.
+
+However, the app should also contain a lightweight browser-based editor. This editor lets the author import the current JSON data, create or edit games, reviews, and articles in the browser, and export an updated JSON file. The exported JSON file and any new asset files can then be committed to the repository or uploaded manually to the server.
 
 ## Project Goals
 
 The app should provide a clean, fast, maintainable way to present:
 
 - Played games
-- Written reviews
-- Review scores or ratings
+- Game reviews
+- Longer articles about games
 - Screenshots and image galleries
 - Platforms played on
 - Completion status
 - Achievements, trophies, badges, or personal milestones
-- Tags such as genre, platform, year, developer, completion status, or favorite games
+- Tags such as genre, platform, year, developer, completion status, topic, or favorite games
+- Relationships between articles and referenced games
 
-The project should remain simple enough to host as a static website on ordinary webspace.
+The project should remain simple enough to host as a static website, for example on GitHub Pages.
 
 ## Core Concept
 
@@ -27,19 +34,96 @@ The application has two main responsibilities:
 
 ```text
 Public website:
-  Reads published data from assets/data/games.json
-  Shows game reviews, screenshots, achievements, tags, ratings, and detail pages
+  Reads published data from assets/data/content.json
+  Shows games, reviews, articles, screenshots, achievements, tags, ratings, and detail pages
 
 Browser-based editor:
-  Imports an existing games.json file
-  Lets the author create and edit entries locally in the browser
+  Imports an existing content.json file
+  Lets the author create and edit games, reviews, and articles locally in the browser
   Stores drafts in local browser storage
-  Exports an updated games.json file
+  Exports an updated content.json file
 ```
 
-The editor does not save directly to the server. It only exports files that can be manually uploaded.
+The editor does not save directly to a server. It only exports files that can be manually uploaded or committed to the repository.
 
 This means the app works like a small static-site content tool rather than a traditional CMS.
+
+## Content Types
+
+### Games
+
+A game is the canonical reference entity in the blog.
+
+A game entry contains relatively stable metadata:
+
+- Title
+- Slug
+- Original release year
+- Developers
+- Publishers
+- Genres
+- Cover image
+- Tags
+
+A game does not need to contain the full review text. Reviews and articles reference games by ID.
+
+### Reviews
+
+A review is a post about one specific game.
+
+A review can contain:
+
+- Title
+- Slug
+- Referenced game ID
+- Creation date
+- Update date
+- Platform played on
+- Completion status
+- Rating
+- Summary
+- Full review text
+- Screenshots
+- Achievements or personal milestones
+- Tags
+
+A review answers the question:
+
+```text
+What did I think of this specific game?
+```
+
+### Articles
+
+An article is a standalone post about games or game-related topics.
+
+An article can contain:
+
+- Title
+- Slug
+- Creation date
+- Update date
+- Summary
+- Full article text
+- Screenshots
+- Tags
+- References to one or more existing games
+
+An article does not need a rating, completion status, playtime, or achievements.
+
+An article answers questions such as:
+
+```text
+What idea, comparison, design pattern, trend, memory, or argument do I want to write about?
+```
+
+Example article topics:
+
+- Why checklist open worlds usually lose me
+- Mass Effect 3 vs Clair Obscur: Expedition 33 — endings and player trust
+- Why Super Mario Galaxy still feels modern
+- My favorite boss fights of 2026
+- How exploration differs between Elden Ring and Breath of the Wild
 
 ## Technology Stack
 
@@ -49,7 +133,7 @@ Recommended initial stack:
 - TypeScript
 - Angular Router
 - Angular Signals for local state and derived view models
-- Static JSON files in `assets/data`
+- Static JSON file in `assets/data/content.json`
 - Static image files in `assets/images`
 - Browser `localStorage` for editor drafts
 - SCSS or plain CSS
@@ -72,56 +156,82 @@ The production server only needs to serve static files generated by the Angular 
 ```text
 1. Open the app locally or on the hosted site.
 2. Go to the editor area.
-3. Import the current games.json file.
-4. Create or edit reviews in the browser.
+3. Import the current content.json file.
+4. Create or edit games, reviews, and articles in the browser.
 5. Enter image paths for covers and screenshots.
-6. Export the updated games.json file.
-7. Manually upload games.json and any new asset files to the server.
+6. Export the updated content.json file.
+7. Commit or manually upload content.json and any new asset files.
+8. Rebuild/redeploy the static site if needed.
 ```
 
-The browser editor should make it clear that changes are local until the JSON file is exported and uploaded.
+The browser editor should make it clear that changes are local until the JSON file is exported and published.
 
 Recommended warning text in the editor:
 
 ```text
 Changes are stored only in this browser until you export the JSON file.
-Export the updated games.json and upload it together with your asset files to publish changes.
+Export the updated content.json and publish it together with your asset files to make changes visible on the public site.
 ```
 
 ## Core Features for Version 1
 
-### Public Game List
+### Public Home Page
 
-Display all reviewed or played games in a browsable list.
+The home page should provide an overview of recent content.
+
+Suggested sections:
+
+- Latest reviews
+- Latest articles
+- Recently added games
+- Favorite or highlighted content
+
+Example layout:
+
+```text
+Latest Reviews
+  - Super Mario Galaxy Review
+  - Elden Ring Review
+
+Latest Articles
+  - Why Checklist Open Worlds Usually Lose Me
+  - Mass Effect 3 vs Expedition 33: Endings and Player Trust
+
+Recently Added Games
+  - Clair Obscur: Expedition 33
+  - Zelda: Breath of the Wild
+```
+
+### Public Game Catalogue
+
+Display all games in a browsable list.
 
 Each game card should show:
 
 - Cover image
 - Title
-- Platform
-- Release year
-- Date played or completed
-- Rating
-- Completion status
-- Short summary
+- Original release year
+- Genres
+- Developer / publisher
 - Tags
+- Links to related reviews and articles, if available
 
 Useful filters:
 
-- Platform
 - Genre
-- Completion status
-- Rating
-- Favorite games
-- Year played
+- Developer
+- Publisher
+- Release year
+- Tags
+- Games with reviews
+- Games referenced by articles
 
 Useful sorting options:
 
-- Recently played
-- Recently reviewed
-- Highest rated
 - Title A-Z
 - Release year
+- Recently added
+- Most recently reviewed
 
 ### Public Game Detail Page
 
@@ -129,18 +239,93 @@ Each game should have its own detail page.
 
 The detail page should show:
 
-- Full review text
-- Rating
-- Screenshots
-- Achievement list
-- Playtime
-- Completion status
-- Platform
-- Developer / publisher
-- Release year
-- Personal notes
+- Cover image
+- Game metadata
+- Related reviews
+- Related articles
 - Tags
-- Related games or similar recommendations, if desired later
+- Optional screenshot gallery if game-level screenshots are added later
+
+The game detail page should act as a hub for all content related to that game.
+
+### Public Review List
+
+Display all reviews in a browsable list.
+
+Each review card should show:
+
+- Review title
+- Referenced game
+- Cover image from the game
+- Rating
+- Platform played on
+- Completion status
+- Creation or update date
+- Summary
+- Tags
+
+Useful filters:
+
+- Rating
+- Platform
+- Completion status
+- Genre
+- Tags
+
+### Public Review Detail Page
+
+Each review should have its own detail page.
+
+The detail page should show:
+
+- Review title
+- Referenced game
+- Rating
+- Platform played on
+- Completion status
+- Date completed
+- Summary
+- Full review text
+- Screenshots
+- Achievements / milestones
+- Tags
+
+### Public Article List
+
+Display all articles in a browsable list.
+
+Each article card should show:
+
+- Article title
+- Creation date
+- Summary
+- Tags
+- Referenced games, if any
+- Optional thumbnail image
+
+Useful filters:
+
+- Tags
+- Referenced game
+- Date
+- Topic
+
+### Public Article Detail Page
+
+Each article should have its own detail page.
+
+The detail page should show:
+
+- Article title
+- Creation date
+- Update date
+- Summary
+- Full article text
+- Screenshots
+- Referenced games
+- Tags
+
+Articles should not require review-specific metadata such as rating, completion status, playtime, or achievements.
 
 ### Screenshots
 
@@ -151,9 +336,12 @@ The app should support:
 - Thumbnail previews
 - Full-size image links or lightbox view
 - Captions
-- Optional grouping by game
+- Screenshots inside reviews
+- Screenshots inside articles
 
 ### Achievements / Milestones
+
+Achievements belong to reviews, not to articles.
 
 Achievements do not need to match official platform trophies exactly. They can also represent personal milestones.
 
@@ -172,35 +360,43 @@ Examples:
 
 The editor should support:
 
-- Import existing `games.json`
-- Create a new game review
-- Edit an existing game review
-- Delete a game review
-- Duplicate an existing game review
-- Edit metadata
-- Edit review text
+- Import existing `content.json`
+- Create a new game
+- Edit an existing game
+- Delete a game
+- Create a new review
+- Edit an existing review
+- Delete a review
+- Create a new article
+- Edit an existing article
+- Delete an article
+- Select one referenced game for reviews
+- Select one or more referenced games for articles
 - Edit screenshot paths and captions
-- Edit achievements
+- Edit achievements for reviews
 - Edit tags
 - Validate required fields
-- Preview a game detail page from draft data
-- Export an updated `games.json`
+- Preview review and article detail pages from draft data
+- Export an updated `content.json`
 - Clear local draft data
 
 The editor should not require a backend.
 
 ## Static Content Loading
 
-The public app should load JSON files from the Angular `assets` directory.
+The public app should load a single JSON file from the Angular `assets` directory.
 
 Recommended first version:
 
 ```text
-src/assets/data/games.json
+src/assets/data/content.json
 src/assets/images/games/
+src/assets/images/articles/
 ```
 
-For a small first version, one single `games.json` file is enough. If the data grows, it can later be split into several files.
+Using a single combined file makes import/export easier.
+
+Later, the data can be split into several files if needed.
 
 ## Data Sources
 
@@ -208,32 +404,32 @@ The app should distinguish between published data and editable draft data.
 
 ```text
 Published data:
-  assets/data/games.json
+  assets/data/content.json
 
 Local editor draft data:
   browser localStorage
 
 Exported data:
-  downloaded games.json
+  downloaded content.json
 ```
 
 Suggested flow:
 
 ```text
-assets/data/games.json
+assets/data/content.json
       ↓ import
 local draft state in browser
       ↓ edit
-exported games.json
-      ↓ manual upload
-assets/data/games.json on server
+exported content.json
+      ↓ manual upload or repository commit
+assets/data/content.json on the published site
 ```
 
 ## localStorage vs IndexedDB
 
 For version 1, use `localStorage`.
 
-This is enough if the app stores only structured review data and image paths. The actual image files should remain normal files in the project or on the server.
+This is enough if the app stores only structured content data and image paths. The actual image files should remain normal files in the project or on the server.
 
 Use IndexedDB only later if the editor should temporarily store actual image files inside the browser before exporting them.
 
@@ -241,79 +437,137 @@ For version 1, avoid storing image binaries in browser state.
 
 ## Suggested Data Model
 
-### Single JSON File
+Use one combined JSON file:
 
-Recommended for the first version.
-
-```json
-[
-  {
-    "id": "super-mario-galaxy",
-    "slug": "super-mario-galaxy",
-    "title": "Super Mario Galaxy",
-    "platforms": ["Nintendo Switch 2"],
-    "originalReleaseYear": 2007,
-    "playedOn": "Nintendo Switch 2",
-    "dateStarted": "2026-06-20",
-    "dateCompleted": "2026-06-27",
-    "status": "completed",
-    "rating": 9,
-    "favorite": true,
-    "coverImage": "assets/images/games/super-mario-galaxy/cover.jpg",
-    "summary": "A brilliant and inventive 3D platformer built around gravity-based level design.",
-    "review": "Full review text goes here.",
-    "genres": ["Platformer", "3D Platformer"],
-    "tags": ["Nintendo", "Mario", "Gravity", "Classic"],
-    "screenshots": [
-      {
-        "image": "assets/images/games/super-mario-galaxy/screenshots/01-observatory.jpg",
-        "caption": "The Comet Observatory still looks beautiful."
-      }
-    ],
-    "achievements": [
-      {
-        "title": "Story Completed",
-        "description": "Finished the main campaign.",
-        "date": "2026-06-27",
-        "type": "completion"
-      }
-    ]
-  }
-]
+```text
+src/assets/data/content.json
 ```
 
-### Possible Later Split
+### Root Structure
+
+```json
+{
+  "games": [],
+  "reviews": [],
+  "articles": []
+}
+```
+
+### Game Model
+
+```json
+{
+  "id": "elden-ring",
+  "slug": "elden-ring",
+  "title": "Elden Ring",
+  "originalReleaseYear": 2022,
+  "developers": ["FromSoftware"],
+  "publishers": ["Bandai Namco"],
+  "genres": ["Action RPG", "Open World"],
+  "coverImage": "assets/images/games/elden-ring/cover.jpg",
+  "tags": ["soulslike", "exploration", "fantasy"]
+}
+```
+
+### Review Model
+
+```json
+{
+  "id": "elden-ring-review",
+  "slug": "elden-ring-review",
+  "gameId": "elden-ring",
+  "title": "Elden Ring Review",
+  "createdAt": "2026-07-01",
+  "updatedAt": "2026-07-01",
+  "playedOn": "PC",
+  "dateStarted": "2026-05-10",
+  "dateCompleted": "2026-06-15",
+  "status": "completed",
+  "rating": 9,
+  "favorite": true,
+  "summary": "A demanding but deeply rewarding open-world action RPG.",
+  "body": "Full review text goes here.",
+  "screenshots": [
+    {
+      "image": "assets/images/games/elden-ring/screenshots/01-limgrave.jpg",
+      "caption": "First steps into Limgrave."
+    }
+  ],
+  "achievements": [
+    {
+      "title": "Story Completed",
+      "description": "Finished the main campaign.",
+      "date": "2026-06-15",
+      "type": "completion"
+    }
+  ],
+  "tags": ["review", "soulslike", "open-world"]
+}
+```
+
+### Article Model
+
+```json
+{
+  "id": "checklist-open-worlds",
+  "slug": "checklist-open-worlds",
+  "title": "Why Checklist Open Worlds Usually Lose Me",
+  "createdAt": "2026-07-01",
+  "updatedAt": "2026-07-01",
+  "summary": "A short essay about why discovery-driven open worlds work better for me than checklist-driven ones.",
+  "body": "Full article text goes here.",
+  "referencedGameIds": [
+    "elden-ring",
+    "zelda-breath-of-the-wild"
+  ],
+  "screenshots": [
+    {
+      "image": "assets/images/articles/checklist-open-worlds/01-map-example.jpg",
+      "caption": "A map full of icons can change how exploration feels."
+    }
+  ],
+  "tags": ["essay", "open-world", "game-design"]
+}
+```
+
+## Possible Later Split
 
 If the app grows, the data can later be split into several files:
 
 ```text
 src/assets/data/games.json
-src/assets/data/reviews/super-mario-galaxy.json
-src/assets/data/reviews/elden-ring.json
+src/assets/data/reviews.json
+src/assets/data/articles.json
 ```
 
-`games.json` would contain overview metadata, while each review file would contain the full review text, screenshots, and achievements.
+This is cleaner for manual inspection, but less convenient for browser-based import/export.
 
-For version 1, start with a single file. Refactor only when the single file becomes inconvenient.
+For version 1, start with a single `content.json`. Refactor only when the combined file becomes inconvenient.
 
 ## Suggested Asset Structure
 
-Use one folder per game.
+Use separate folders for game assets and article assets.
 
 ```text
-src/assets/images/games/
-  elden-ring/
-    cover.jpg
-    screenshots/
-      01-limgrave.jpg
-      02-stormveil.jpg
-      03-radahn.jpg
+src/assets/images/
+  games/
+    elden-ring/
+      cover.jpg
+      screenshots/
+        01-limgrave.jpg
+        02-stormveil.jpg
+        03-radahn.jpg
 
-  super-mario-galaxy/
-    cover.jpg
-    screenshots/
-      01-observatory.jpg
-      02-good-egg-galaxy.jpg
+    super-mario-galaxy/
+      cover.jpg
+      screenshots/
+        01-observatory.jpg
+        02-good-egg-galaxy.jpg
+
+  articles/
+    checklist-open-worlds/
+      01-map-example.jpg
+      02-quest-log.jpg
 ```
 
 The corresponding JSON paths are then predictable:
@@ -321,15 +575,27 @@ The corresponding JSON paths are then predictable:
 ```json
 {
   "slug": "elden-ring",
-  "coverImage": "assets/images/games/elden-ring/cover.jpg",
-  "screenshots": [
-    {
-      "image": "assets/images/games/elden-ring/screenshots/01-limgrave.jpg",
-      "caption": "First steps into Limgrave."
-    }
-  ]
+  "coverImage": "assets/images/games/elden-ring/cover.jpg"
 }
 ```
+
+```json
+{
+  "image": "assets/images/articles/checklist-open-worlds/01-map-example.jpg",
+  "caption": "A map full of icons can change how exploration feels."
+}
+```
+
+An article may also reference an existing game screenshot:
+
+```json
+{
+  "image": "assets/images/games/elden-ring/screenshots/01-limgrave.jpg",
+  "caption": "Limgrave as an example of discovery-driven open-world design."
+}
+```
+
+For a personal blog, both approaches are acceptable.
 
 ## Image Handling
 
@@ -341,14 +607,14 @@ For version 1, image handling should work like this:
 1. Manually place the image file in the expected asset folder.
 2. Enter the image path in the editor.
 3. Preview the image if it exists locally or on the deployed site.
-4. Export games.json.
-5. Upload both games.json and the new image files to the server.
+4. Export content.json.
+5. Publish both content.json and the new image files.
 ```
 
 The editor can show a preview using the path:
 
 ```html
-<img [src]="game.coverImage" />
+<img [src]="imagePath" />
 ```
 
 If the image does not exist yet, the editor should show a placeholder or a warning.
@@ -364,10 +630,10 @@ Required asset files:
 
 assets/images/games/elden-ring/cover.jpg
 assets/images/games/elden-ring/screenshots/01-limgrave.jpg
-assets/images/games/elden-ring/screenshots/02-stormveil.jpg
+assets/images/articles/checklist-open-worlds/01-map-example.jpg
 ```
 
-This makes manual uploads less error-prone.
+This makes manual uploads or commits less error-prone.
 
 ## Suggested Angular Structure
 
@@ -375,49 +641,55 @@ This makes manual uploads less error-prone.
 src/app/
   core/
     models/
+      content.model.ts
       game.model.ts
-      achievement.model.ts
+      review.model.ts
+      article.model.ts
       screenshot.model.ts
+      achievement.model.ts
+
     services/
-      game-data.service.ts
-      draft-game-store.service.ts
+      content-data.service.ts
+      content-reference.service.ts
+      draft-content-store.service.ts
       json-import.service.ts
       json-export.service.ts
-      game-validation.service.ts
+      validation.service.ts
       asset-checklist.service.ts
 
   features/
     public/
-      pages/
+      home/
+        home-page/
+      games/
         game-list-page/
         game-detail-page/
+      reviews/
+        review-list-page/
+        review-detail-page/
+      articles/
+        article-list-page/
+        article-detail-page/
+      about/
         about-page/
-      components/
-        game-card/
-        game-filter-bar/
-        game-screenshot-gallery/
-        achievement-list/
 
     editor/
-      pages/
-        editor-home-page/
-        json-import-page/
-        json-export-page/
-        game-editor-page/
-        draft-preview-page/
-      components/
-        game-form/
-        screenshot-editor/
-        achievement-editor/
-        tag-editor/
-        validation-summary/
-        asset-checklist/
+      editor-home-page/
+      import-page/
+      export-page/
+      game-editor-page/
+      review-editor-page/
+      article-editor-page/
+      draft-preview-page/
 
   shared/
     components/
+      content-card/
       rating-badge/
       tag-list/
-      page-header/
+      screenshot-gallery/
+      referenced-games-list/
+      metadata-line/
       status-badge/
 
   app.routes.ts
@@ -429,26 +701,37 @@ src/app/
 Recommended public routes:
 
 ```text
-/                     Redirect to /games
-/games                Game list
-/games/:slug          Game detail page
-/tags/:tag            Optional filtered tag page
-/platforms/:platform  Optional filtered platform page
-/about                Optional about page
+/                  Home
+/games             Game catalogue
+/games/:slug       Game detail page
+/reviews           Review list
+/reviews/:slug     Review detail page
+/articles          Article list
+/articles/:slug    Article detail page
+/tags/:tag         Optional tag page
+/about             Optional about page
 ```
 
 Recommended editor routes:
 
 ```text
-/editor                     Editor home
-/editor/import              Import JSON
-/editor/export              Export JSON
-/editor/games/new           Create new game
-/editor/games/:slug/edit    Edit existing game
-/editor/games/:slug/preview Preview draft game detail page
+/editor                         Editor home
+/editor/import                  Import JSON
+/editor/export                  Export JSON
+
+/editor/games/new               Create new game
+/editor/games/:slug/edit        Edit existing game
+
+/editor/reviews/new             Create new review
+/editor/reviews/:slug/edit      Edit existing review
+/editor/reviews/:slug/preview   Preview draft review detail page
+
+/editor/articles/new            Create new article
+/editor/articles/:slug/edit     Edit existing article
+/editor/articles/:slug/preview  Preview draft article detail page
 ```
 
-The `slug` field in the JSON file should be stable and URL-friendly.
+The `slug` field should be stable and URL-friendly.
 
 Good examples:
 
@@ -457,6 +740,7 @@ elden-ring
 super-mario-galaxy
 clair-obscur-expedition-33
 zelda-breath-of-the-wild
+checklist-open-worlds
 ```
 
 Avoid changing slugs later, because they become part of the URL.
@@ -467,7 +751,7 @@ Since this is a static frontend, the editor cannot be truly protected by server-
 
 That is acceptable because the editor does not modify the server. It only modifies local browser state and exports JSON.
 
-There are two reasonable options:
+There are two reasonable options.
 
 ### Option A: Public but Harmless Editor
 
@@ -528,7 +812,7 @@ export function downloadJson(filename: string, data: unknown): void {
 Usage:
 
 ```ts
-downloadJson('games.json', this.games());
+downloadJson('content.json', this.content());
 ```
 
 ## JSON Import
@@ -564,22 +848,38 @@ The app should validate the imported JSON before replacing local draft data.
 
 ## Validation Rules
 
-Add basic validation early.
+Add validation early.
+
+### Game Validation
 
 For each game:
 
+- `id` must exist
 - `slug` must exist
-- `slug` must be unique
+- `slug` must be unique among games
 - `title` must exist
+- `coverImage` should not be empty
+- `coverImage` should be included in the asset checklist
+- `genres` should be normalized
+- `tags` should be normalized
+
+### Review Validation
+
+For each review:
+
+- `id` must exist
+- `slug` must exist
+- `slug` must be unique among reviews
+- `title` must exist
+- `gameId` must reference an existing game
 - `rating` must be within the allowed range
 - `status` must be a known value
-- `coverImage` should not be empty
-- screenshot paths should not be empty
 - date fields should be valid ISO-style dates
+- screenshot paths should not be empty
 - duplicate screenshot paths should be reported
-- duplicate achievement titles within one game should be reported as warnings
+- duplicate achievement titles within one review should be reported as warnings
 
-Recommended status values:
+Recommended review status values:
 
 ```text
 planned
@@ -591,10 +891,42 @@ on-hold
 replayed
 ```
 
+### Article Validation
+
+For each article:
+
+- `id` must exist
+- `slug` must exist
+- `slug` must be unique among articles
+- `title` must exist
+- `createdAt` must be a valid ISO-style date
+- `referencedGameIds` must reference existing games
+- screenshot paths should not be empty
+- tags should be normalized
+
+### Global Validation
+
+Validate across all content:
+
+- No duplicate IDs across games, reviews, and articles
+- No broken game references
+- No missing required asset paths
+- No empty slugs
+- No invalid date formats
+
+Since routes are separate, this is technically allowed:
+
+```text
+/reviews/elden-ring
+/articles/elden-ring
+```
+
+But avoid duplicate slugs where possible to keep content easier to reason about.
+
 Later, a JSON schema can be added:
 
 ```text
-src/assets/schema/games.schema.json
+src/assets/schema/content.schema.json
 ```
 
 For version 1, TypeScript validation functions are enough.
@@ -606,13 +938,19 @@ The editor should keep draft data in browser storage.
 Suggested service:
 
 ```text
-DraftGameStoreService
+DraftContentStoreService
   - loadFromLocalStorage()
   - saveToLocalStorage()
-  - replaceAll(games)
+  - replaceAll(content)
   - addGame(game)
   - updateGame(game)
   - deleteGame(slug)
+  - addReview(review)
+  - updateReview(review)
+  - deleteReview(slug)
+  - addArticle(article)
+  - updateArticle(article)
+  - deleteArticle(slug)
   - clearDrafts()
 ```
 
@@ -621,14 +959,14 @@ The editor should autosave after changes.
 Recommended localStorage key:
 
 ```text
-game-review-blog:draft-games
+game-writing-blog:draft-content
 ```
 
 The editor should show whether draft data exists:
 
 ```text
 Draft data exists in this browser.
-Last saved locally: 2026-07-01 11:30
+Last saved locally: 2026-07-01 13:15
 ```
 
 ## Public Data Service
@@ -638,36 +976,60 @@ The public app should load the published JSON file.
 Suggested service:
 
 ```text
-GameDataService
-  - loadPublishedGames()
+ContentDataService
+  - loadPublishedContent()
   - getGames()
   - getGameBySlug(slug)
-  - getFavoriteGames()
-  - getGamesByTag(tag)
-  - getGamesByPlatform(platform)
+  - getGameById(id)
+  - getReviews()
+  - getReviewBySlug(slug)
+  - getReviewsForGame(gameId)
+  - getArticles()
+  - getArticleBySlug(slug)
+  - getArticlesForGame(gameId)
+  - getContentByTag(tag)
 ```
 
 The public app should not depend on editor draft state.
 
+## Content Reference Service
+
+A separate service should resolve references between content types.
+
+Suggested responsibilities:
+
+```text
+ContentReferenceService
+  - resolveReviewGame(review)
+  - resolveArticleGames(article)
+  - getReviewsForGame(gameId)
+  - getArticlesForGame(gameId)
+  - getAllTags()
+  - getReferencedGameTitles(article)
+```
+
+This keeps the components simpler and avoids duplicating lookup logic.
+
 ## Preview from Draft Data
 
-The editor should support previewing a game before export.
+The editor should support previewing reviews and articles before export.
 
 This can reuse the public detail components, but with data from the draft store instead of published JSON.
 
-Possible route:
+Possible routes:
 
 ```text
-/editor/games/:slug/preview
+/editor/reviews/:slug/preview
+/editor/articles/:slug/preview
 ```
 
-This is useful for checking formatting, images, screenshots, ratings, and achievements before exporting.
+This is useful for checking formatting, images, screenshots, references, ratings, and metadata before exporting.
 
 ## Markdown Support
 
-For version 1, review text can be plain text.
+For version 1, review and article body text can be plain text.
 
-However, Markdown support is a strong candidate for an early enhancement, because it makes writing reviews easier.
+However, Markdown support is a strong candidate for an early enhancement, because it makes writing reviews and articles easier.
 
 Useful Markdown features:
 
@@ -680,88 +1042,290 @@ Useful Markdown features:
 
 If Markdown is used, sanitize rendered HTML before displaying it.
 
+## GitHub Pages Deployment
+
+This app is a good fit for GitHub Pages because it is a static Angular app.
+
+Recommended deployment flow:
+
+```text
+GitHub repository
+  ↓ push to main
+GitHub Actions
+  ↓ install dependencies
+  ↓ build Angular app
+  ↓ upload build artifact
+GitHub Pages
+  ↓ serves the static site
+```
+
+Publishing a new post becomes:
+
+```text
+1. Use the editor to export content.json.
+2. Copy content.json to src/assets/data/content.json.
+3. Add any new images under src/assets/images/.
+4. Commit the changes.
+5. Push to main.
+6. GitHub Actions builds and deploys the site.
+```
+
+For GitHub Pages, use hash-based routing unless a SPA fallback workaround is added.
+
+Example public URLs:
+
+```text
+https://username.github.io/game-writing-blog/#/games/elden-ring
+https://username.github.io/game-writing-blog/#/reviews/elden-ring-review
+https://username.github.io/game-writing-blog/#/articles/checklist-open-worlds
+```
+
+Angular router configuration:
+
+```ts
+provideRouter(routes, withHashLocation())
+```
+
+## Nx Considerations
+
+The project can be built either as a plain Angular CLI app or as an Nx workspace.
+
+Nx is useful if the project may later grow into multiple apps or libraries.
+
+Recommended simple Nx layout:
+
+```text
+apps/
+  game-writing-blog/
+    src/
+      app/
+      assets/
+        data/
+          content.json
+        images/
+          games/
+          articles/
+```
+
+Start with one app and avoid premature library extraction.
+
+Make sure generated folders and caches are not committed:
+
+```gitignore
+node_modules/
+dist/
+.nx/cache/
+.nx/workspace-data/
+.angular/cache/
+coverage/
+```
+
+For GitHub Pages, only upload the built Angular output, for example:
+
+```text
+dist/apps/game-writing-blog/browser
+```
+
+Adjust the actual path based on the generated build output.
+
+## GitHub Actions Deployment Example for Nx
+
+```yaml
+name: Deploy Angular Nx app to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npx nx build game-writing-blog --configuration production --base-href /game-writing-blog/
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/apps/game-writing-blog/browser
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+## GitHub Pages Usage Limits
+
+GitHub Pages is suitable for this project, but screenshots should be optimized.
+
+Main practical constraints:
+
+- Keep the published site below GitHub Pages limits.
+- Avoid committing large unoptimized screenshots.
+- Use WebP or optimized JPEG where possible.
+- Keep cover images reasonably small.
+- Avoid using GitHub Pages as bulk media storage.
+
+Recommended asset budget:
+
+```text
+Cover images:       150-300 KB each
+Screenshots:        200-600 KB each
+Large hero images:  below 1 MB
+```
+
+Avoid raw 4K PNG screenshots in the repository.
+
 ## Implementation Plan
 
 ### Phase 1: Project Setup
 
-1. Create a new Angular app.
+1. Create a new Angular or Nx Angular app.
 2. Add routing.
-3. Choose styling approach.
-4. Define the app shell:
+3. Configure hash routing for GitHub Pages.
+4. Choose styling approach.
+5. Define the app shell:
    - Header
    - Main content area
    - Footer
-5. Add placeholder pages:
+6. Add placeholder pages:
+   - Home
    - Game list
    - Game detail
+   - Review list
+   - Review detail
+   - Article list
+   - Article detail
    - Editor home
 
-Suggested command:
+Suggested Angular CLI command:
 
 ```bash
-ng new game-review-blog --routing --style=scss
+ng new game-writing-blog --routing --style=scss
 ```
 
-### Phase 2: Define Static Data Model
+Suggested Nx command:
+
+```bash
+npx create-nx-workspace@latest game-writing-blog
+```
+
+### Phase 2: Define Static Content Model
 
 1. Create TypeScript interfaces for:
+   - `ContentRoot`
    - `Game`
+   - `Review`
+   - `Article`
    - `Screenshot`
    - `Achievement`
-2. Create `src/assets/data/games.json`.
+2. Create `src/assets/data/content.json`.
 3. Add 2-3 sample games.
-4. Add placeholder cover images and screenshots.
-5. Validate that image paths work after build.
+4. Add 1-2 sample reviews.
+5. Add 1 sample article.
+6. Add placeholder cover images and screenshots.
+7. Validate that image paths work after build.
 
-The first data model should be practical rather than perfect. It can evolve as more reviews are added.
+The first data model should be practical rather than perfect. It can evolve as more content is added.
 
 ### Phase 3: Build Public Data Loading
 
-1. Create `GameDataService`.
-2. Load `assets/data/games.json` via Angular `HttpClient`.
+1. Create `ContentDataService`.
+2. Load `assets/data/content.json` via Angular `HttpClient`.
 3. Expose methods such as:
    - `getGames()`
    - `getGameBySlug(slug: string)`
-   - `getFavoriteGames()`
-   - `getGamesByTag(tag: string)`
-4. Consider using Signals for cached loaded state and derived filtered lists.
+   - `getReviews()`
+   - `getReviewBySlug(slug: string)`
+   - `getArticles()`
+   - `getArticleBySlug(slug: string)`
+4. Create `ContentReferenceService` for resolving game references.
+5. Consider using Signals for cached loaded state and derived filtered lists.
 
-### Phase 4: Build the Public Game List Page
+### Phase 4: Build Public Pages
+
+Build these pages first:
+
+```text
+/
+/games
+/games/:slug
+/reviews
+/reviews/:slug
+/articles
+/articles/:slug
+```
+
+Start with simple rendering and navigation before adding filters and visual polish.
+
+### Phase 5: Build Game-Related Views
 
 1. Render all games as cards.
-2. Show cover image, title, rating, status, and short summary.
-3. Add navigation to the detail page.
-4. Add simple sorting.
-5. Add basic filters.
+2. Show cover image, title, release year, genres, and tags.
+3. On the game detail page, show related reviews.
+4. On the game detail page, show related articles.
+5. Add fallback behavior if the game slug does not exist.
 
-Start with client-side filtering only. The dataset will be small, so there is no need for a search backend.
+### Phase 6: Build Review Views
 
-### Phase 5: Build the Public Game Detail Page
+1. Render review cards.
+2. Show referenced game title and cover image.
+3. Show rating, status, platform, summary, and tags.
+4. On the review detail page, show the full review text.
+5. Show screenshots and achievements.
 
-1. Read the `slug` route parameter.
-2. Load the matching game.
-3. Show the full review.
-4. Show metadata:
-   - Platform
-   - Release year
-   - Date completed
-   - Playtime
-   - Rating
-   - Status
-5. Show screenshot gallery.
-6. Show achievements.
-7. Add fallback behavior if the game slug does not exist.
+### Phase 7: Build Article Views
 
-### Phase 6: Build the Editor Draft Store
+1. Render article cards.
+2. Show title, date, summary, tags, and referenced games.
+3. On the article detail page, show the full article text.
+4. Show screenshots.
+5. Show referenced games as links.
 
-1. Create `DraftGameStoreService`.
+### Phase 8: Build the Editor Draft Store
+
+1. Create `DraftContentStoreService`.
 2. Load draft data from `localStorage`.
 3. Save draft data to `localStorage`.
-4. Add methods for creating, updating, deleting, and replacing games.
+4. Add methods for creating, updating, deleting, and replacing games, reviews, and articles.
 5. Add clear-draft functionality.
 6. Show a visible warning that draft changes are local only.
 
-### Phase 7: Build JSON Import
+### Phase 9: Build JSON Import
 
 1. Add `/editor/import` route.
 2. Add file picker for JSON files.
@@ -770,78 +1334,118 @@ Start with client-side filtering only. The dataset will be small, so there is no
 5. Replace local draft data only after validation succeeds.
 6. Show validation errors if the import is invalid.
 
-### Phase 8: Build Game Editor Forms
+### Phase 10: Build Editor Forms
 
-1. Add create/edit form.
-2. Support fields for:
-   - Title
-   - Slug
-   - Platform
-   - Release year
-   - Dates
-   - Status
-   - Rating
-   - Summary
-   - Review text
-   - Cover image path
-   - Screenshots
-   - Achievements
-   - Tags
-3. Autosave to localStorage.
-4. Add duplicate game functionality.
-5. Add delete functionality.
+Create separate forms for:
 
-### Phase 9: Build Draft Preview
+- Game editor
+- Review editor
+- Article editor
+
+The review editor should allow selecting one referenced game.
+
+The article editor should allow selecting zero, one, or multiple referenced games.
+
+Editor fields:
+
+Game:
+
+- Title
+- Slug
+- Original release year
+- Developers
+- Publishers
+- Genres
+- Cover image path
+- Tags
+
+Review:
+
+- Title
+- Slug
+- Referenced game
+- Created at
+- Updated at
+- Played on
+- Date started
+- Date completed
+- Status
+- Rating
+- Favorite
+- Summary
+- Body
+- Screenshots
+- Achievements
+- Tags
+
+Article:
+
+- Title
+- Slug
+- Created at
+- Updated at
+- Summary
+- Body
+- Referenced games
+- Screenshots
+- Tags
+
+### Phase 11: Build Draft Preview
 
 1. Reuse the public detail page components if possible.
-2. Load data from the draft store.
-3. Show how the page will look after export.
-4. Show warnings for missing images or invalid data.
+2. Load preview data from the draft store.
+3. Preview reviews.
+4. Preview articles.
+5. Show warnings for missing images, invalid references, or invalid data.
 
-### Phase 10: Build JSON Export
+### Phase 12: Build JSON Export
 
 1. Add `/editor/export` route.
 2. Validate all draft data before export.
 3. Show validation errors and warnings.
 4. Show asset checklist.
-5. Export `games.json` as a downloadable file.
+5. Export `content.json` as a downloadable file.
 
-### Phase 11: Manual Publishing Workflow
+### Phase 13: Manual Publishing Workflow
 
 Document the publishing workflow:
 
 ```text
-1. Export games.json from the editor.
-2. Copy games.json to src/assets/data/games.json.
-3. Add new image assets to src/assets/images/games/.
+1. Export content.json from the editor.
+2. Copy content.json to src/assets/data/content.json.
+3. Add new image assets to src/assets/images/.
 4. Run the app locally and verify all pages.
 5. Build the Angular app.
-6. Upload the generated build output to the server.
+6. Commit and push if using GitHub Pages.
+7. Or upload the generated build output to a static web server.
 ```
 
-Alternative workflow if data and assets are uploaded separately:
+Alternative workflow if data and assets are uploaded directly to an existing deployed site:
 
 ```text
-1. Export games.json from the editor.
-2. Upload games.json directly to /assets/data/games.json on the server.
-3. Upload new image files to /assets/images/games/.
+1. Export content.json from the editor.
+2. Upload content.json directly to /assets/data/content.json on the server.
+3. Upload new image files to /assets/images/.
 4. Refresh the public website and verify the result.
 ```
 
 Be careful with browser caching when replacing JSON files directly on the server.
 
-### Phase 12: Styling and UX
+### Phase 14: Styling and UX
 
 Add visual polish after the core data flow works.
 
 Useful UI elements:
 
+- Content cards
 - Rating badge
 - Completion status badge
 - Platform badge
 - Tag chips
 - Screenshot grid
 - Review card layout
+- Article card layout
+- Referenced games list
 - Responsive mobile layout
 - Dark mode, if desired
 - Editor validation summary
@@ -857,23 +1461,27 @@ Create a production build:
 ng build
 ```
 
-Upload the generated build output to the server.
+or with Nx:
 
-Depending on the Angular version and builder configuration, the output folder will usually be similar to:
-
-```text
-dist/game-review-blog/browser
+```bash
+npx nx build game-writing-blog --configuration production --base-href /game-writing-blog/
 ```
 
-or:
+Upload the generated build output to the server or deploy it with GitHub Actions.
+
+Depending on the Angular version and builder configuration, the output folder may be similar to:
 
 ```text
-dist/game-review-blog
+dist/game-writing-blog/browser
 ```
 
-Upload the contents of the final browser output folder to the webspace root or a subdirectory.
+or with Nx:
 
-The server must be configured to serve `index.html` for Angular routes. If this is not possible, use hash-based routing.
+```text
+dist/apps/game-writing-blog/browser
+```
+
+Upload or publish the contents of the final browser output folder.
 
 ## Deployment Option A: Normal Angular Routing
 
@@ -881,46 +1489,66 @@ Cleaner URLs:
 
 ```text
 /games/elden-ring
+/reviews/elden-ring-review
+/articles/checklist-open-worlds
 ```
 
 Requires server fallback to `index.html`.
 
 ## Deployment Option B: Hash Routing
 
-More compatible with simple webspace:
+More compatible with GitHub Pages and simple webspace:
 
 ```text
 /#/games/elden-ring
+/#/reviews/elden-ring-review
+/#/articles/checklist-open-worlds
 ```
 
 Use this if the hosting provider does not support rewrite rules.
+
+For GitHub Pages, hash routing is the simplest option.
 
 ## Static Hosting Notes
 
 The app can be hosted on:
 
-- Ordinary webspace
 - GitHub Pages
+- Ordinary webspace
 - Netlify
 - Vercel
 - Azure Static Web Apps
 - Any static file server
 
-For ordinary FTP/webspace hosting, hash routing is often the safest option.
+For ordinary FTP/webspace hosting and GitHub Pages, hash routing is often the safest option.
 
 ## Manual Content Update Workflow
 
 To add a new review:
 
-1. Add cover image to the matching game asset folder.
-2. Add screenshot files to the matching screenshot folder.
-3. Open the editor.
-4. Import the current `games.json`.
-5. Create or edit the game review.
+1. Add or verify the referenced game exists.
+2. Add cover image to the matching game asset folder if needed.
+3. Add screenshot files to the matching screenshot folder.
+4. Open the editor.
+5. Import the current `content.json`.
+6. Create or edit the review.
+7. Add screenshot paths and captions.
+8. Preview the draft.
+9. Export the updated `content.json`.
+10. Commit or upload the exported `content.json` and new image files.
+11. Verify the public website.
+
+To add a new article:
+
+1. Add article-specific screenshots if needed.
+2. Open the editor.
+3. Import the current `content.json`.
+4. Create or edit the article.
+5. Select referenced games if applicable.
 6. Add screenshot paths and captions.
 7. Preview the draft.
-8. Export the updated `games.json`.
-9. Upload the exported `games.json` and new image files.
+8. Export the updated `content.json`.
+9. Commit or upload the exported `content.json` and new image files.
 10. Verify the public website.
 
 ## Recommended First Milestone
@@ -929,29 +1557,41 @@ The first useful version should include:
 
 Public area:
 
-- Game list page
+- Home page
+- Game catalogue
 - Game detail page
-- Static JSON loading
+- Review list
+- Review detail page
+- Article list
+- Article detail page
+- Static JSON loading from `content.json`
 - Cover images
 - Screenshot gallery
-- Rating display
-- Completion status
+- Rating display for reviews
+- Completion status for reviews
+- Referenced games for articles
 - Responsive layout
 
 Editor area:
 
-- Import `games.json`
+- Import `content.json`
 - Store drafts in `localStorage`
 - Create/edit/delete games
+- Create/edit/delete reviews
+- Create/edit/delete articles
+- Select referenced game for reviews
+- Select referenced games for articles
 - Edit screenshots and achievements
-- Validate required fields
-- Preview draft detail page
-- Export updated `games.json`
+- Validate required fields and references
+- Preview draft reviews and articles
+- Export updated `content.json`
 - Show asset checklist
 
 Content:
 
-- 3-5 real reviews
+- 3-5 real games
+- 2-3 real reviews
+- 1-2 real articles
 - Real cover images
 - At least a few screenshots
 
@@ -961,7 +1601,7 @@ Do not add advanced features before this milestone is complete.
 
 After version 1 works, consider adding:
 
-- Markdown support for reviews
+- Markdown support for reviews and articles
 - Markdown preview in editor
 - Search box
 - Advanced filtering
@@ -976,6 +1616,7 @@ After version 1 works, consider adding:
 - JSON schema validation
 - Local image file staging with IndexedDB
 - Drag-and-drop screenshot ordering
+- Related content recommendations
 - Small local-only desktop editor using Tauri or Electron
 - Migration to ASP.NET Core backend, if manual JSON export becomes annoying
 
@@ -988,6 +1629,16 @@ This keeps hosting simple, but all publishing remains manual.
 ### Editor Does Not Publish
 
 The editor only modifies browser-local draft data and exports JSON. It does not save to the server.
+
+### Games Are Reference Entities
+
+Games are intentionally separated from reviews and articles. This avoids awkward data modeling when an article references multiple games.
+
+### Reviews and Articles Are Different Content Types
+
+Reviews have ratings, completion status, and achievements.
+
+Articles have basic metadata and optional game references.
 
 ### JSON Editing
 
@@ -1007,22 +1658,30 @@ Direct navigation to `/games/some-id` may fail if the server is not configured c
 
 ### Data Growth
 
-A single JSON file is fine for a small personal blog. If the file becomes too large or hard to edit, split it into multiple JSON files.
+A single `content.json` file is fine for a small personal blog. If the file becomes too large or hard to edit, split it into multiple JSON files.
 
 ## Definition of Done for Version 1
 
 Version 1 is complete when:
 
 - The app builds successfully.
-- The public game list loads from `assets/data/games.json`.
+- The public site loads from `assets/data/content.json`.
+- The game catalogue works.
 - Each game has a working detail page.
+- Review list and review detail pages work.
+- Article list and article detail pages work.
+- Reviews correctly reference games.
+- Articles correctly reference zero, one, or multiple games.
 - Screenshots and covers are displayed correctly.
-- The editor can import an existing `games.json`.
-- The editor can create and edit game reviews.
+- The editor can import an existing `content.json`.
+- The editor can create and edit games.
+- The editor can create and edit reviews.
+- The editor can create and edit articles.
 - Drafts survive a browser refresh.
-- The editor can export a valid `games.json`.
-- The exported `games.json` can replace the published JSON file.
+- The editor can export a valid `content.json`.
+- The exported `content.json` can replace the published JSON file.
 - The app works after deployment to static hosting.
-- At least three real reviews are published.
+- At least three real games are present.
+- At least two real reviews are published.
+- At least one real article is published.
 - The manual update workflow is documented and repeatable.
-
