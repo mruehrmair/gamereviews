@@ -1,9 +1,9 @@
 {
-  "name": "frontend",
+  "name": "gamereviews",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/frontend/src",
+  "sourceRoot": "apps/gamereviews/src",
   "tags": [],
   "targets": {
     "build": {
@@ -13,22 +13,22 @@
       ],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/frontend",
-        "browser": "apps/frontend/src/main.ts",
-        "tsConfig": "apps/frontend/tsconfig.app.json",
+        "outputPath": "dist/apps/gamereviews",
+        "browser": "apps/gamereviews/src/main.ts",
+        "tsConfig": "apps/gamereviews/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/frontend/public"
+            "input": "apps/gamereviews/public"
           }
         ],
         "styles": [
-          "apps/frontend/src/styles.scss"
+          "apps/gamereviews/src/styles.scss"
         ],
-        "server": "apps/frontend/src/main.server.ts",
+        "server": "apps/gamereviews/src/main.server.ts",
         "ssr": {
-          "entry": "apps/frontend/src/server.ts"
+          "entry": "apps/gamereviews/src/server.ts"
         },
         "outputMode": "server"
       },
@@ -61,10 +61,10 @@
       "defaultConfiguration": "development",
       "configurations": {
         "production": {
-          "buildTarget": "frontend:build:production"
+          "buildTarget": "gamereviews:build:production"
         },
         "development": {
-          "buildTarget": "frontend:build:development"
+          "buildTarget": "gamereviews:build:development"
         }
       }
     },
@@ -75,8 +75,8 @@
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "frontend:build",
-        "staticFilePath": "dist/apps/frontend/browser",
+        "buildTarget": "gamereviews:build",
+        "staticFilePath": "dist/apps/gamereviews/browser",
         "spa": true
       }
     }

@@ -1,9 +1,10 @@
 {
-  "name": "@frontend/source",
+  "name": "@gamereviews/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve frontend"
+    "start": "nx serve gamereviews",
+    "test": "nx test gamereviews"
   },
   "private": true,
   "dependencies": {
