@@ -12,8 +12,12 @@ import { ReviewListPage } from './features/public/reviews/review-list-page/revie
 export const appRoutes: Route[] = [
   {
     path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
     component: HomePage,
-    pathMatch: 'full',
   },
   {
     path: 'games',
