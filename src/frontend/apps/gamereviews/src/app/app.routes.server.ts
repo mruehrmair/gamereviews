@@ -2,7 +2,19 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
   {
+    path: 'games/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'reviews/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'articles/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: '**',
-    renderMode: RenderMode.Prerender
-  }
+    renderMode: RenderMode.Prerender,
+  },
 ];
