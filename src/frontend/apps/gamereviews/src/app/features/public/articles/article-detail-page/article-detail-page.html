@@ -1,1 +1,23 @@
-<h2>article-detail-page</h2>
+@if (article$ | async; as article) {
+<article>
+  <h2>{{ article.title }}</h2>
+  <p>{{ article.summary }}</p>
+  <p>{{ article.body }}</p>
+
+  <dl>
+    <dt>Created</dt>
+    <dd>{{ article.createdAt }}</dd>
+
+    <dt>Updated</dt>
+    <dd>{{ article.updatedAt }}</dd>
+
+    <dt>Referenced games</dt>
+    <dd>{{ article.referencedGameIds.join(', ') }}</dd>
+
+    <dt>Tags</dt>
+    <dd>{{ article.tags.join(', ') }}</dd>
+  </dl>
+</article>
+} @else {
+<p>Article not found.</p>
+}

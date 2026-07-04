@@ -1,1 +1,32 @@
-<h2>review-detail-page</h2>
+@if (review$ | async; as review) {
+<article>
+  <h2>{{ review.title }}</h2>
+  <p>{{ review.summary }}</p>
+  <p>{{ review.body }}</p>
+
+  <dl>
+    <dt>Game</dt>
+    <dd>{{ review.gameId }}</dd>
+
+    <dt>Rating</dt>
+    <dd>{{ review.rating }}</dd>
+
+    <dt>Status</dt>
+    <dd>{{ review.status }}</dd>
+
+    <dt>Played on</dt>
+    <dd>{{ review.playedOn }}</dd>
+
+    <dt>Started</dt>
+    <dd>{{ review.dateStarted }}</dd>
+
+    <dt>Completed</dt>
+    <dd>{{ review.dateCompleted }}</dd>
+
+    <dt>Tags</dt>
+    <dd>{{ review.tags.join(', ') }}</dd>
+  </dl>
+</article>
+} @else {
+<p>Review not found.</p>
+}

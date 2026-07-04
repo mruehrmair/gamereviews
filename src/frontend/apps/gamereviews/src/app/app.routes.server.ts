@@ -6,11 +6,23 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'games',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'reviews/:slug',
     renderMode: RenderMode.Server,
   },
   {
+    path: 'reviews',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'articles/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'articles',
     renderMode: RenderMode.Server,
   },
   {
