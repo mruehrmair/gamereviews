@@ -30,6 +30,7 @@
       },
       "configurations": {
         "production": {
+          "baseHref": "/gamereviews/",
           "budgets": [
             {
               "type": "initial",
@@ -42,11 +43,19 @@
               "maximumError": "8kb"
             }
           ],
+          "fileReplacements": [
+            {
+              "replace": "apps/gamereviews/src/app/app.routes.server.ts",
+              "with": "apps/gamereviews/src/app/app.routes.server.static.ts"
+            }
+          ],
+          "outputMode": "static",
           "outputHashing": "all"
         },
         "development": {
           "optimization": false,
           "extractLicenses": false,
+          "outputMode": "server",
           "sourceMap": true
         }
       }
