@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { map, Observable, shareReplay } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { map, Observable, of } from 'rxjs';
+import contentData from '../data/content.json';
 import type { Article } from '../models/article.model';
 import type { ContentRoot } from '../models/content.model';
 import type { Game } from '../models/game.model';
@@ -10,10 +10,7 @@ import type { Review } from '../models/review.model';
   providedIn: 'root',
 })
 export class ContentDataService {
-  private readonly http = inject(HttpClient);
-  private readonly content$ = this.http
-    .get<ContentRoot>('assets/data/content.json')
-    .pipe(shareReplay({ bufferSize: 1, refCount: true }));
+  private readonly content$: Observable<ContentRoot> = of(contentData);
 
   getGames(): Observable<Game[]> {
     return this.content$.pipe(map(({ games }) => games));

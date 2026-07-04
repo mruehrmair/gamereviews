@@ -1,0 +1,67 @@
+{
+  "games": [
+    {
+      "id": "elden-ring",
+      "slug": "elden-ring",
+      "title": "Elden Ring",
+      "originalReleaseYear": 2022,
+      "developers": ["FromSoftware"],
+      "publishers": ["Bandai Namco"],
+      "genres": ["Action RPG", "Open World"],
+      "coverImage": "assets/images/games/elden-ring/cover.jpg",
+      "tags": ["soulslike", "exploration", "fantasy"]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "elden-ring-review",
+      "slug": "elden-ring-review",
+      "gameId": "elden-ring",
+      "title": "Elden Ring Review",
+      "createdAt": "2026-07-01",
+      "updatedAt": "2026-07-01",
+      "playedOn": "PC",
+      "dateStarted": "2026-05-10",
+      "dateCompleted": "2026-06-15",
+      "status": "completed",
+      "rating": 9,
+      "favorite": true,
+      "summary": "A demanding but deeply rewarding open-world action RPG.",
+      "body": "Full review text goes here.",
+      "screenshots": [
+        {
+          "image": "assets/images/games/elden-ring/screenshots/01-limgrave.jpg",
+          "caption": "First steps into Limgrave."
+        }
+      ],
+      "achievements": [
+        {
+          "title": "Story Completed",
+          "description": "Finished the main campaign.",
+          "date": "2026-06-15",
+          "type": "completion"
+        }
+      ],
+      "tags": ["review", "soulslike", "open-world"]
+    }
+  ],
+  "articles": [
+    {
+      "id": "checklist-open-worlds",
+      "slug": "checklist-open-worlds",
+      "title": "Why Checklist Open Worlds Usually Lose Me",
+      "createdAt": "2026-07-01",
+      "updatedAt": "2026-07-01",
+      "summary": "A short essay about why discovery-driven open worlds work better for me than checklist-driven ones.",
+      "body": "Full article text goes here.",
+      "referencedGameIds": ["elden-ring", "zelda-breath-of-the-wild"],
+      "screenshots": [
+        {
+          "image": "assets/images/articles/checklist-open-worlds/01-map-example.jpg",
+          "caption": "A map full of icons can change how exploration feels."
+        }
+      ],
+      "tags": ["essay", "open-world", "game-design"]
+    }
+  ]
+}
