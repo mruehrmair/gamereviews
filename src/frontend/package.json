@@ -65,6 +65,7 @@
     "esbuild": true,
     "lmdb": true,
     "msgpackr-extract": true,
-    "nx": true
+    "nx": true,
+    "fsevents": true
   }
 }
