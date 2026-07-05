@@ -4,6 +4,19 @@
   <p>{{ review.summary }}</p>
   <p>{{ review.body }}</p>
 
+  @if (review.screenshots.length > 0) {
+  <section>
+    <h3>Screenshots</h3>
+
+    @for (screenshot of review.screenshots; track screenshot.image) {
+    <figure>
+      <img [src]="screenshot.image" [alt]="screenshot.caption" />
+      <figcaption>{{ screenshot.caption }}</figcaption>
+    </figure>
+    }
+  </section>
+  }
+
   <dl>
     <dt>Game</dt>
     <dd>{{ review.gameId }}</dd>

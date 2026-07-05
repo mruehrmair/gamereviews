@@ -2,6 +2,8 @@
 <article>
   <h2>{{ game.title }}</h2>
 
+  <img [src]="game.coverImage" [alt]="game.title + ' cover'" />
+
   <dl>
     <dt>Release year</dt>
     <dd>{{ game.originalReleaseYear }}</dd>

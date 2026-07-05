@@ -10,6 +10,39 @@
       "genres": ["Action RPG", "Open World"],
       "coverImage": "assets/images/games/elden-ring/cover.jpg",
       "tags": ["soulslike", "exploration", "fantasy"]
+    },
+    {
+      "id": "zelda-breath-of-the-wild",
+      "slug": "zelda-breath-of-the-wild",
+      "title": "The Legend of Zelda: Breath of the Wild",
+      "originalReleaseYear": 2017,
+      "developers": ["Nintendo EPD"],
+      "publishers": ["Nintendo"],
+      "genres": ["Action-Adventure", "Open World"],
+      "coverImage": "assets/images/games/zelda-breath-of-the-wild/cover.jpg",
+      "tags": ["open-world", "exploration", "puzzle", "nintendo"]
+    },
+    {
+      "id": "hollow-knight",
+      "slug": "hollow-knight",
+      "title": "Hollow Knight",
+      "originalReleaseYear": 2017,
+      "developers": ["Team Cherry"],
+      "publishers": ["Team Cherry"],
+      "genres": ["Metroidvania", "Action-Adventure"],
+      "coverImage": "assets/images/games/hollow-knight/cover.jpg",
+      "tags": ["metroidvania", "exploration", "platformer", "indie"]
+    },
+    {
+      "id": "super-mario-galaxy",
+      "slug": "super-mario-galaxy",
+      "title": "Super Mario Galaxy",
+      "originalReleaseYear": 2007,
+      "developers": ["Nintendo EAD"],
+      "publishers": ["Nintendo"],
+      "genres": ["Platformer", "Action-Adventure"],
+      "coverImage": "assets/images/games/super-mario-galaxy/cover.jpg",
+      "tags": ["platformer", "adventure", "nintendo"]
     }
   ],
   "reviews": [
@@ -43,6 +76,99 @@
         }
       ],
       "tags": ["review", "soulslike", "open-world"]
+    },
+    {
+      "id": "zelda-breath-of-the-wild-review",
+      "slug": "zelda-breath-of-the-wild-review",
+      "gameId": "zelda-breath-of-the-wild",
+      "title": "The Legend of Zelda: Breath of the Wild Review",
+      "createdAt": "2026-07-01",
+      "updatedAt": "2026-07-01",
+      "playedOn": "Nintendo Switch",
+      "dateStarted": "2026-04-01",
+      "dateCompleted": "2026-05-01",
+      "status": "completed",
+      "rating": 10,
+      "favorite": true,
+      "summary": "A revolutionary open-world adventure that redefined the Zelda series.",
+      "body": "Full review text goes here.",
+      "screenshots": [
+        {
+          "image": "assets/images/games/zelda-breath-of-the-wild/screenshots/01-gotcha.jpg",
+          "caption": "Gotcha."
+        }
+      ],
+      "achievements": [
+        {
+          "title": "Master Sword Obtained",
+          "description": "Acquired the legendary Master Sword.",
+          "date": "2026-04-20",
+          "type": "item"
+        }
+      ],
+      "tags": ["review", "open-world", "adventure"]
+    },
+    {
+      "id": "hollow-knight-review",
+      "slug": "hollow-knight-review",
+      "gameId": "hollow-knight",
+      "title": "Hollow Knight Review",
+      "createdAt": "2026-07-01",
+      "updatedAt": "2026-07-01",
+      "playedOn": "PC",
+      "dateStarted": "2026-03-01",
+      "dateCompleted": "2026-04-01",
+      "status": "completed",
+      "rating": 9,
+      "favorite": false,
+      "summary": "A beautifully crafted metroidvania with tight controls and a haunting world.",
+      "body": "Full review text goes here.",
+      "screenshots": [
+        {
+          "image": "assets/images/games/hollow-knight/screenshots/01-greenpath.jpg",
+          "caption": "Exploring Greenpath."
+        }
+      ],
+      "achievements": [
+        {
+          "title": "All Charms Equipped",
+          "description": "Equipped all available charms.",
+          "date": "2026-03-25",
+          "type": "achievement"
+        }
+      ],
+      "tags": ["review", "metroidvania", "indie"]
+    },
+    {
+      "id": "super-mario-galaxy-review",
+      "slug": "super-mario-galaxy-review",
+      "gameId": "super-mario-galaxy",
+      "title": "Super Mario Galaxy Review",
+      "createdAt": "2026-07-01",
+      "updatedAt": "2026-07-01",
+      "playedOn": "Wii",
+      "dateStarted": "2026-02-01",
+      "dateCompleted": "2026-02-15",
+      "status": "completed",
+      "rating": 10,
+      "favorite": true,
+      "summary": "A stellar platformer that takes Mario to new heights.",
+      "body": "Full review text goes here.",
+      "screenshots": [
+        {
+          "image": "assets/images/games/super-mario-galaxy/screenshots/01-galaxy.jpg",
+          "caption": "Just a little break."
+        }
+      ],
+      "achievements": [
+        {
+          "title": "All Stars Collected",
+          "description": "Collected all Power Stars in the game.",
+          "date": "2026-02-15",
+          "type": "completion"
+        }
+      ],
+      "tags": ["review", "platformer", "nintendo"]
     }
   ],
   "articles": [
