@@ -1,1 +1,35 @@
-<h2>home-page</h2>
+<h2>Latest updates</h2>
+
+@if (latestContent$ | async; as latestContent) {
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Type</th>
+      <th scope="col">Updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of latestContent; track item.type + ':' + item.id) {
+    <tr>
+      <td>
+        <a
+          [routerLink]="[
+            item.type === 'article' ? '/articles' : '/reviews',
+            item.slug
+          ]"
+        >
+          {{ item.title }}
+        </a>
+      </td>
+      <td>{{ item.type === 'article' ? 'Article' : 'Review' }}</td>
+      <td>{{ item.updatedAt }}</td>
+    </tr>
+    } @empty {
+    <tr>
+      <td colspan="3">No articles or reviews available.</td>
+    </tr>
+    }
+  </tbody>
+</table>
+}

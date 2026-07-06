@@ -1,0 +1,67 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #222;
+  font-family: Arial, sans-serif;
+}
+
+.app-header {
+  padding: 1.5rem 2rem;
+  background-color: #222;
+
+  a {
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(12rem, 1fr);
+  gap: 2rem;
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.main-content,
+.navigation {
+  min-width: 0;
+}
+
+.navigation {
+  padding: 1.5rem;
+  background-color: #f3f3f3;
+
+  h2 {
+    margin-top: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li + li {
+    margin-top: 0.75rem;
+  }
+
+  a {
+    color: #333;
+    text-decoration: none;
+
+    &:hover,
+    &.active {
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (max-width: 40rem) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,2 +1,24 @@
-<h1>Welcome to gamereviews!</h1>
-<router-outlet></router-outlet>
+<header class="app-header">
+  <a routerLink="/home">Game Reviews</a>
+</header>
+
+<div class="app-layout">
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <nav class="navigation" aria-label="Main navigation">
+    <h2>Navigation</h2>
+    <ul>
+      <li>
+        <a routerLink="/games" routerLinkActive="active">Games list</a>
+      </li>
+      <li>
+        <a routerLink="/reviews" routerLinkActive="active">Review list</a>
+      </li>
+      <li>
+        <a routerLink="/articles" routerLinkActive="active">Articles list</a>
+      </li>
+    </ul>
+  </nav>
+</div>
